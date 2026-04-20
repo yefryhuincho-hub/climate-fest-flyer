@@ -23,9 +23,9 @@
     }
 
     input, button {
-      padding: 10px;
-      margin: 8px;
-      border-radius: 6px;
+      padding: 12px;
+      margin: 10px;
+      border-radius: 8px;
       border: none;
     }
 
@@ -35,10 +35,17 @@
       cursor: pointer;
     }
 
-    canvas {
+    #canvas {
+      display: none; /* 🔴 oculto al inicio */
       margin-top: 20px;
       max-width: 100%;
       background: black;
+      border-radius: 10px;
+    }
+
+    .hint {
+      opacity: 0.7;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -48,12 +55,14 @@
   <img src="logo.png" onerror="this.style.display='none'">
 
   <h1>CLIMATE FEST 2026</h1>
-  <p>Crea tu flyer y compártelo</p>
+  <p>Crea tu flyer y compártelo en tus redes</p>
 
-  <input type="file" id="upload"><br>
-  <input type="text" id="name" placeholder="Tu nombre"><br>
+  <p class="hint">Sube tu foto para comenzar</p>
 
-  <button onclick="draw()">Generar</button>
+  <input type="file" id="upload" accept="image/*"><br>
+  <input type="text" id="name" placeholder="Tu nombre (opcional)"><br>
+
+  <button onclick="drawManual()">Generar flyer</button>
 
   <br>
 
@@ -62,6 +71,9 @@
   <br>
 
   <button onclick="download()">Descargar</button>
+
+  <p class="hint">Usa la rueda del mouse para hacer zoom y arrastra para ajustar</p>
+  <p>#ClimateFest2026</p>
 
 <script>
 const canvas = document.getElementById("canvas");
@@ -88,25 +100,24 @@ document.getElementById("upload").addEventListener("change", function(e){
   img.onload = () => {
     scale = 1;
 
-    // centrar inicial
     posX = (canvas.width - img.width) / 2;
     posY = (canvas.height - img.height) / 2;
+
+    canvas.style.display = "block"; // 🔥 aparece recién aquí
 
     draw();
   };
 });
 
-// zoom con rueda
+// zoom
 canvas.addEventListener("wheel", (e) => {
   e.preventDefault();
-
   scale += e.deltaY * -0.001;
   scale = Math.min(Math.max(0.5, scale), 3);
-
   draw();
 });
 
-// mover imagen
+// drag
 canvas.addEventListener("mousedown", (e) => {
   dragging = true;
   startX = e.offsetX - posX;
@@ -124,7 +135,7 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("mouseup", () => dragging = false);
 canvas.addEventListener("mouseleave", () => dragging = false);
 
-// dibujar todo
+// dibujar
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
@@ -147,12 +158,12 @@ function draw(){
   }
 }
 
-// botón generar
+// botón
 function drawManual(){
   draw();
 }
 
-// descarga
+// descargar
 function download(){
   const link = document.createElement("a");
   link.download = "flyer.png";
