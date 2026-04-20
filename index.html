@@ -18,9 +18,9 @@
       margin-bottom: 5px;
     }
 
-    img.logo {
-      width: 120px;
-      margin-bottom: 10px;
+    h2 {
+      margin-top: 0;
+      font-weight: normal;
     }
 
     input, button {
@@ -42,22 +42,15 @@
       margin-top: 20px;
       border-radius: 10px;
       max-width: 100%;
-      background: #000;
-    }
-
-    p {
-      opacity: 0.8;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- LOGO -->
-  <img src="logo.png" class="logo">
-
   <h1>CLIMATE FEST 2026</h1>
-  <p>Crea tu flyer y compártelo en tus redes</p>
+  <h2>Crea tu flyer y compártelo en tus redes</h2>
+  <p>Conviértete en embajador del movimiento climático</p>
 
   <input type="file" id="upload" accept="image/*"><br>
   <input type="text" id="name" placeholder="Tu nombre (opcional)"><br>
@@ -72,113 +65,72 @@
 
   <button onclick="download()">Descargar</button>
 
-  <p>Usa la rueda del mouse para hacer zoom y arrastra para ajustar tu foto</p>
-  <p>#ClimateFest2026</p>
+  <p>Compártelo usando #ClimateFest2026</p>
 
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-let userImg = new Image();
-let overlay = new Image();
-overlay.src = 'overlay.png';
+function generate() {
+  const file = document.getElementById('upload').files[0];
+  const name = document.getElementById('name').value;
 
-let scale = 1;
-let posX = 0;
-let posY = 0;
+  if (!file) {
+    alert("Sube una imagen");
+    return;
+  }
 
-let isDragging = false;
-let startX, startY;
-
-document.getElementById('upload').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
+  const userImg = new Image();
   userImg.src = URL.createObjectURL(file);
 
+  const overlay = new Image();
+  overlay.src = 'overlay.png';
+
   userImg.onload = () => {
-    scale = 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // centrar imagen inicial
-    const ratio = userImg.width / userImg.height;
+    const canvasSize = canvas.width;
+    const imgRatio = userImg.width / userImg.height;
+    const canvasRatio = 1;
 
-    if (ratio > 1) {
-      posX = (canvas.width - userImg.width) / 2;
-      posY = 0;
+    let drawWidth, drawHeight, offsetX, offsetY;
+
+    if (imgRatio > canvasRatio) {
+      drawHeight = canvasSize;
+      drawWidth = userImg.width * (canvasSize / userImg.height);
+      offsetX = -(drawWidth - canvasSize) / 2;
+      offsetY = 0;
     } else {
-      posX = 0;
-      posY = (canvas.height - userImg.height) / 2;
+      drawWidth = canvasSize;
+      drawHeight = userImg.height * (canvasSize / userImg.width);
+      offsetX = 0;
+      offsetY = -(drawHeight - canvasSize) / 2;
     }
 
-    draw();
+    // recorte circular (opcional pero recomendado)
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(canvas.width/2, canvas.height/2, 400, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    ctx.drawImage(userImg, offsetX, offsetY, drawWidth, drawHeight);
+
+    ctx.restore();
+
+    overlay.onload = () => {
+      ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
+
+      if (name) {
+        ctx.font = "bold 50px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / 2, 950);
+      }
+    };
   };
-});
-
-// ZOOM
-canvas.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(0.5, scale), 3);
-  draw();
-});
-
-// DRAG
-canvas.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  startX = e.offsetX - posX;
-  startY = e.offsetY - posY;
-});
-
-canvas.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    posX = e.offsetX - startX;
-    posY = e.offsetY - startY;
-    draw();
-  }
-});
-
-canvas.addEventListener('mouseup', () => isDragging = false);
-canvas.addEventListener('mouseleave', () => isDragging = false);
-
-// DIBUJO
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (!userImg.src) return;
-
-  const imgWidth = userImg.width * scale;
-  const imgHeight = userImg.height * scale;
-
-  // máscara circular
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(canvas.width/2, canvas.height/2, 400, 0, Math.PI * 2);
-  ctx.closePath();
-  ctx.clip();
-
-  ctx.drawImage(userImg, posX, posY, imgWidth, imgHeight);
-
-  ctx.restore();
-
-  // overlay encima
-  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
-
-  // nombre
-  const name = document.getElementById('name').value;
-  if (name) {
-    ctx.font = "bold 50px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText(name, canvas.width / 2, 950);
-  }
 }
 
-// botón
-function generate() {
-  draw();
-}
-
-// descargar
 function download() {
   const link = document.createElement('a');
   link.download = 'climatefest.png';
