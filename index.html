@@ -71,22 +71,69 @@ let img = new Image();
 let overlay = new Image();
 overlay.src = "overlay.png";
 
+let scale = 1;
+let posX = 0;
+let posY = 0;
+
+let dragging = false;
+let startX, startY;
+
+// subir imagen
 document.getElementById("upload").addEventListener("change", function(e){
   const file = e.target.files[0];
   if(!file) return;
 
   img.src = URL.createObjectURL(file);
+
+  img.onload = () => {
+    scale = 1;
+
+    // centrar inicial
+    posX = (canvas.width - img.width) / 2;
+    posY = (canvas.height - img.height) / 2;
+
+    draw();
+  };
 });
 
-function draw(){
-  if(!img.src){
-    alert("Sube una imagen");
-    return;
-  }
+// zoom con rueda
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
 
+  scale += e.deltaY * -0.001;
+  scale = Math.min(Math.max(0.5, scale), 3);
+
+  draw();
+});
+
+// mover imagen
+canvas.addEventListener("mousedown", (e) => {
+  dragging = true;
+  startX = e.offsetX - posX;
+  startY = e.offsetY - posY;
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  if(dragging){
+    posX = e.offsetX - startX;
+    posY = e.offsetY - startY;
+    draw();
+  }
+});
+
+canvas.addEventListener("mouseup", () => dragging = false);
+canvas.addEventListener("mouseleave", () => dragging = false);
+
+// dibujar todo
+function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  if(!img.src) return;
+
+  const imgWidth = img.width * scale;
+  const imgHeight = img.height * scale;
+
+  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
 
   ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
 
@@ -100,6 +147,12 @@ function draw(){
   }
 }
 
+// botón generar
+function drawManual(){
+  draw();
+}
+
+// descarga
 function download(){
   const link = document.createElement("a");
   link.download = "flyer.png";
