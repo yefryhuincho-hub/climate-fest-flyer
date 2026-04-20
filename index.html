@@ -1,136 +1,92 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Climate Fest Flyer</title>
-
-  <style>
-    body {
-      background: #0c1f1e;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 30px;
-    }
-
-    h1 {
-      color: #00d1b2;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      margin-top: 0;
-      font-weight: normal;
-    }
-
-    input, button {
-      padding: 12px;
-      margin: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 14px;
-    }
-
-    button {
-      background: #00d1b2;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    canvas {
-      margin-top: 20px;
-      border-radius: 10px;
-      max-width: 100%;
-    }
-  </style>
-</head>
-
-<body>
-
-  <h1>CLIMATE FEST 2026</h1>
-  <h2>Crea tu flyer y compártelo en tus redes</h2>
-  <p>Conviértete en embajador del movimiento climático</p>
-
-  <input type="file" id="upload" accept="image/*"><br>
-  <input type="text" id="name" placeholder="Tu nombre (opcional)"><br>
-
-  <button onclick="generate()">Generar flyer</button>
-
-  <br>
-
-  <canvas id="canvas" width="1080" height="1080"></canvas>
-
-  <br>
-
-  <button onclick="download()">Descargar</button>
-
-  <p>Compártelo usando #ClimateFest2026</p>
-
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-function generate() {
-  const file = document.getElementById('upload').files[0];
-  const name = document.getElementById('name').value;
+let userImg = new Image();
+let overlay = new Image();
+overlay.src = 'overlay.png';
 
-  if (!file) {
-    alert("Sube una imagen");
-    return;
-  }
+let scale = 1;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY;
 
-  const userImg = new Image();
+document.getElementById('upload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
   userImg.src = URL.createObjectURL(file);
 
-  const overlay = new Image();
-  overlay.src = 'overlay.png';
-
   userImg.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const canvasSize = canvas.width;
-    const imgRatio = userImg.width / userImg.height;
-    const canvasRatio = 1;
-
-    let drawWidth, drawHeight, offsetX, offsetY;
-
-    if (imgRatio > canvasRatio) {
-      drawHeight = canvasSize;
-      drawWidth = userImg.width * (canvasSize / userImg.height);
-      offsetX = -(drawWidth - canvasSize) / 2;
-      offsetY = 0;
-    } else {
-      drawWidth = canvasSize;
-      drawHeight = userImg.height * (canvasSize / userImg.width);
-      offsetX = 0;
-      offsetY = -(drawHeight - canvasSize) / 2;
-    }
-
-    // recorte circular (opcional pero recomendado)
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(canvas.width/2, canvas.height/2, 400, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
-
-    ctx.drawImage(userImg, offsetX, offsetY, drawWidth, drawHeight);
-
-    ctx.restore();
-
-    overlay.onload = () => {
-      ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
-
-      if (name) {
-        ctx.font = "bold 50px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 950);
-      }
-    };
+    scale = 1;
+    posX = 0;
+    posY = 0;
+    draw();
   };
+});
+
+// ZOOM con rueda del mouse
+canvas.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  scale += e.deltaY * -0.001;
+  scale = Math.min(Math.max(0.5, scale), 3);
+  draw();
+});
+
+// DRAG (mover imagen)
+canvas.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  startX = e.offsetX - posX;
+  startY = e.offsetY - posY;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    posX = e.offsetX - startX;
+    posY = e.offsetY - startY;
+    draw();
+  }
+});
+
+canvas.addEventListener('mouseup', () => isDragging = false);
+canvas.addEventListener('mouseleave', () => isDragging = false);
+
+// DIBUJO
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!userImg.src) return;
+
+  const imgWidth = userImg.width * scale;
+  const imgHeight = userImg.height * scale;
+
+  // recorte circular (opcional)
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(canvas.width/2, canvas.height/2, 400, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  ctx.drawImage(userImg, posX, posY, imgWidth, imgHeight);
+
+  ctx.restore();
+
+  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
+
+  const name = document.getElementById('name').value;
+  if (name) {
+    ctx.font = "bold 50px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText(name, canvas.width / 2, 950);
+  }
 }
 
+// BOTÓN GENERAR
+function generate() {
+  draw();
+}
+
+// DESCARGAR
 function download() {
   const link = document.createElement('a');
   link.download = 'climatefest.png';
@@ -138,6 +94,3 @@ function download() {
   link.click();
 }
 </script>
-
-</body>
-</html>
