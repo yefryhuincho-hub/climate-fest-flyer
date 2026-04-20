@@ -15,47 +15,45 @@
 
     h1 {
       color: #00d1b2;
-      margin-bottom: 5px;
     }
 
-    h2 {
-      margin-top: 0;
-      font-weight: normal;
+    img {
+      width: 120px;
+      margin-bottom: 10px;
     }
 
     input, button {
-      padding: 12px;
-      margin: 10px;
-      border-radius: 8px;
+      padding: 10px;
+      margin: 8px;
+      border-radius: 6px;
       border: none;
-      font-size: 14px;
     }
 
     button {
       background: #00d1b2;
-      color: black;
       font-weight: bold;
       cursor: pointer;
     }
 
     canvas {
       margin-top: 20px;
-      border-radius: 10px;
       max-width: 100%;
+      background: black;
     }
   </style>
 </head>
 
 <body>
 
+  <img src="logo.png" onerror="this.style.display='none'">
+
   <h1>CLIMATE FEST 2026</h1>
-  <h2>Crea tu flyer y compártelo en tus redes</h2>
-  <p>Conviértete en embajador del movimiento climático</p>
+  <p>Crea tu flyer y compártelo</p>
 
-  <input type="file" id="upload" accept="image/*"><br>
-  <input type="text" id="name" placeholder="Tu nombre (opcional)"><br>
+  <input type="file" id="upload"><br>
+  <input type="text" id="name" placeholder="Tu nombre"><br>
 
-  <button onclick="generate()">Generar flyer</button>
+  <button onclick="draw()">Generar</button>
 
   <br>
 
@@ -65,76 +63,47 @@
 
   <button onclick="download()">Descargar</button>
 
-  <p>Compártelo usando #ClimateFest2026</p>
-
 <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-function generate() {
-  const file = document.getElementById('upload').files[0];
-  const name = document.getElementById('name').value;
+let img = new Image();
+let overlay = new Image();
+overlay.src = "overlay.png";
 
-  if (!file) {
+document.getElementById("upload").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+
+  img.src = URL.createObjectURL(file);
+});
+
+function draw(){
+  if(!img.src){
     alert("Sube una imagen");
     return;
   }
 
-  const userImg = new Image();
-  userImg.src = URL.createObjectURL(file);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  const overlay = new Image();
-  overlay.src = 'overlay.png';
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-  userImg.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
 
-    const canvasSize = canvas.width;
-    const imgRatio = userImg.width / userImg.height;
-    const canvasRatio = 1;
+  const name = document.getElementById("name").value;
 
-    let drawWidth, drawHeight, offsetX, offsetY;
-
-    if (imgRatio > canvasRatio) {
-      drawHeight = canvasSize;
-      drawWidth = userImg.width * (canvasSize / userImg.height);
-      offsetX = -(drawWidth - canvasSize) / 2;
-      offsetY = 0;
-    } else {
-      drawWidth = canvasSize;
-      drawHeight = userImg.height * (canvasSize / userImg.width);
-      offsetX = 0;
-      offsetY = -(drawHeight - canvasSize) / 2;
-    }
-
-    // recorte circular (opcional pero recomendado)
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(canvas.width/2, canvas.height/2, 400, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
-
-    ctx.drawImage(userImg, offsetX, offsetY, drawWidth, drawHeight);
-
-    ctx.restore();
-
-    overlay.onload = () => {
-      ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
-
-      if (name) {
-        ctx.font = "bold 50px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 950);
-      }
-    };
-  };
+  if(name){
+    ctx.fillStyle = "white";
+    ctx.font = "40px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(name, canvas.width/2, 950);
+  }
 }
 
-function download() {
-  const link = document.createElement('a');
-  link.download = 'climatefest.png';
-  link.href = canvas.toDataURL("image/png");
+function download(){
+  const link = document.createElement("a");
+  link.download = "flyer.png";
+  link.href = canvas.toDataURL();
   link.click();
 }
 </script>
