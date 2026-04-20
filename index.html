@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador Climate Fest</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; }
+    canvas { border: 1px solid #ccc; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Genera tu flyer - Climate Fest</h2>
+
+<input type="file" id="upload" accept="image/*"><br><br>
+<input type="text" id="name" placeholder="Tu nombre (opcional)"><br><br>
+
+<button onclick="generate()">Generar</button>
+<br><br>
+<canvas id="canvas" width="800" height="800"></canvas>
+<br><br>
+<button onclick="download()">Descargar</button>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function generate() {
+  const file = document.getElementById('upload').files[0];
+  const name = document.getElementById('name').value;
+
+  if (!file) return alert("Sube una imagen");
+
+  const userImg = new Image();
+  userImg.src = URL.createObjectURL(file);
+
+  const overlay = new Image();
+  overlay.src = 'overlay.png';
+
+  userImg.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Dibuja la foto
+    ctx.drawImage(userImg, 0, 0, canvas.width, canvas.height);
+
+    // Overlay encima
+    overlay.onload = () => {
+      ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
+
+      // Nombre opcional
+      if (name) {
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / 2, 750);
+      }
+    };
+  };
+}
+
+function download() {
+  const link = document.createElement('a');
+  link.download = 'climatefest.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
