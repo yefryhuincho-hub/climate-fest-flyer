@@ -15,7 +15,7 @@ body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #efefef;
-  color: white;
+  color: black;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -68,11 +68,29 @@ input, button, textarea {
 
 button {
   background: #5aae36;
+  color: white; /* 👈 ESTA ES LA CLAVE */
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
+ button i {
+  color: white;
+  margin-right: 8px; 
+}
+
+button.facebook {
+  background: #1877f2;
+}
+
+button.instagram {
+  background: #e4405f;
+}
+
+button.linkedin {
+  background: #0a66c2;
+}
+  
 button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -331,6 +349,12 @@ function shareFacebook()  {
 function openInstagram() {
   window.open("https://www.instagram.com/", "_blank");
 }
+
+  function openLinkedIn() {
+  window.open("https://www.linkedin.com/", "_blank");
+
+}
+  
 </script>
 
 </body>
