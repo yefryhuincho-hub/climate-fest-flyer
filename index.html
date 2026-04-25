@@ -16,6 +16,16 @@
 
 <style>
 
+.location {
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.subtitle {
+  margin-top: 12px; /* 👈 separación clara */
+}
+  
 /* ===== BASE ===== */
 body {
   margin: 0;
@@ -32,6 +42,7 @@ body {
 
 .hero img {
   width: 130px;
+  margin-bottom: 5px; /* 👈 antes estaba muy suelto */
 }
 
 .hero h1 {
@@ -47,7 +58,7 @@ body {
 
  .hero p {
   max-width: 500px;
-  margin: auto;
+  margin: 4px auto; /* 👈 controla separación vertical */
   opacity: 0.7;
   font-size: 14px;
 }
@@ -166,8 +177,8 @@ canvas {
 <section class="hero">
   <img src="logo.png" onerror="this.style.display='none'">
   <h1>Climate Fest</h1>
-  <p>Chachapoyas, Amazonas Perú 2026</p>
-  <p>Genera tu flyer oficial como participante seleccionado</p>
+  <p class="location">Chachapoyas, Amazonas Perú 2026</p>
+  <p class="subtitle">Genera tu flyer oficial como participante seleccionado</p>
 </section>
 
 <!-- ===== GENERADOR ===== -->
