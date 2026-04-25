@@ -8,13 +8,14 @@
   <!-- 🔥 FAVICON -->
 <link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
 <style>
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #efefef;
-  color: black;
+  color: white;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -128,6 +129,7 @@ canvas {
   <textarea readonly id="copyText">🌱✨ ¡Feliz de haber sido seleccionad@!
 
 Ahora soy un Actor Climático del Climate Fest 2026, una cumbre internacional que reunirá en la Amazonía peruana 🇵🇪 a jóvenes, líderes y agentes de cambio de distintos países.
+
 Ser parte de este espacio no es solo participar en un evento, es integrarse a una red que impulsa acción climática real, innovación y soluciones desde los territorios.
 
 Este es solo el inicio.
@@ -142,8 +144,17 @@ Si también quieres ser parte del Climate Fest 2026, aún puedes postular.
 
   <h3>Compartir en redes</h3>
 
-  <button onclick="shareFacebook()">📘 Facebook</button>
-  <button onclick="openInstagram()">📸 Instagram</button>
+  <button onclick="shareFacebook()">
+  <i class="fab fa-facebook"></i> Facebook
+  </button>
+
+  <button onclick="openInstagram()">
+  <i class="fab fa-instagram"></i> Instagram
+  </button>
+
+  <button onclick="openLinkedIn()">
+  <i class="fab fa-linkedin"></i> LinkedIn
+  </button>
 
 </section>
 
@@ -314,14 +325,10 @@ function shareWhatsApp() {
 }
 
 function shareFacebook()  {
-  copyTextFunc();
-  alert("Compártelo en Facebook");
   window.open("https://www.facebook.com/", "_blank");
 }
 
 function openInstagram() {
-  copyTextFunc();
-  alert("Compártelo en Instagram");
   window.open("https://www.instagram.com/", "_blank");
 }
 </script>
