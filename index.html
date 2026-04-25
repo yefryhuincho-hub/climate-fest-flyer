@@ -281,7 +281,10 @@ Si también quieres ser parte, aún puedes postular.
 
   <p class="tag-cta">
     Comparte tu flyer y etiquétanos 
-    <a href="javascript:void(0);" onclick="openInstagramProfile()">@climate.fest</a>
+    <a href="https://www.instagram.com/climate.fest" 
+       onclick="openInstagramProfile(event)">
+       @climate.fest
+    </a>
   </p>
 
   <p class="social-proof">
@@ -455,21 +458,22 @@ function animateCounter() {
 setInterval(animateCounter, 2000);
 
   /* ===== INSTAGRAM DE CLIMATE ===== */
- function openInstagramProfile() {
+function openInstagramProfile(e) {
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   if (isMobile) {
-    // intenta abrir la app
+    e.preventDefault(); // evita que abra el link web primero
+
+    // intenta abrir app
     window.location.href = "instagram://user?username=climate.fest";
 
-    // fallback a web si no abre
+    // fallback
     setTimeout(() => {
-      window.open("https://www.instagram.com/climate.fest", "_blank");
+      window.location.href = "https://www.instagram.com/climate.fest";
     }, 800);
-  } else {
-    // desktop directo a web
-    window.open("https://www.instagram.com/climate.fest", "_blank");
   }
+
+  // en desktop NO hacemos nada → deja que el href actúe
 } 
 
 </script>
