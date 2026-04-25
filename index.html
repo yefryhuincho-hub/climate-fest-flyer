@@ -96,6 +96,29 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-buttons a {
+  text-decoration: none;
+}
+
+.social-buttons button {
+  width: auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-buttons button {
+  border-radius: 20px;
+}
+  
 textarea {
   height: 140px;
   resize: none;
@@ -161,24 +184,27 @@ Si también quieres ser parte del Climate Fest 2026, aún puedes postular.
   <button onclick="copyTextFunc()">Copiar texto</button>
 
   <h3>Compartir en redes</h3>
+  <div class="social-buttons">
 
   <a href="https://www.facebook.com/" target="_blank">
-  <button class="facebook">
-    <i class="fab fa-facebook"></i> Facebook
-  </button>
-</a>
+    <button class="facebook">
+      <i class="fab fa-facebook"></i> Facebook
+    </button>
+  </a>
 
-<a href="https://www.instagram.com/" target="_blank">
-  <button class="instagram">
-    <i class="fab fa-instagram"></i> Instagram
-  </button>
-</a>
+  <a href="https://www.instagram.com/" target="_blank">
+    <button class="instagram">
+      <i class="fab fa-instagram"></i> Instagram
+    </button>
+  </a>
 
-<a href="https://www.linkedin.com/" target="_blank">
-  <button class="linkedin">
-    <i class="fab fa-linkedin"></i> LinkedIn
-  </button>
-</a>
+  <a href="https://www.linkedin.com/" target="_blank">
+    <button class="linkedin">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </button>
+  </a>
+  
+  </div>
 
 </section>
 
