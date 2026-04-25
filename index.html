@@ -20,7 +20,7 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: #efefef;
+  background: linear-gradient(180deg, #f5f7f6, #e9eceb);
   color: black;
 }
 
@@ -36,13 +36,20 @@ body {
 
 .hero h1 {
   color: #5aae36;
-  font-size: 28px;
+  font-size: 32px;
+  margin-bottom: 5px;
 }
 
-.hero p {
+.hero {
+  padding: 60px 20px 30px;
+  text-align: center;
+}
+
+ .hero p {
   max-width: 500px;
   margin: auto;
-  opacity: 0.85;
+  opacity: 0.7;
+  font-size: 14px;
 }
 
 /* ===== TARJETAS ===== */
@@ -50,9 +57,12 @@ body {
   background: white;
   margin: 20px auto;
   padding: 25px;
-  border-radius: 14px;
+  border-radius: 16px;
   text-align: center;
   max-width: 500px;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
 }
 
 /* ===== INPUTS / BOTONES ===== */
@@ -67,12 +77,21 @@ input, button, textarea {
   font-family: 'Poppins', sans-serif;
 }
 
+input {
+  border: 1px solid #ddd;
+  background: #fafafa;
+}
+
 /* BOTONES */
 button {
   background: #5aae36;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  border: none;
+
+  border-radius: 10px;
+  transition: all 0.2s ease;
 }
 
 /* ICONOS */
@@ -87,8 +106,8 @@ button.linkedin { background: #0a66c2; }
 
 /* HOVER */
 button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
 /* BOTONES REDES (layout) */
@@ -99,8 +118,12 @@ button:hover {
   flex-wrap: wrap;
 }
 
-.social-buttons a {
-  text-decoration: none;
+.social-buttons button {
+  width: auto;
+  padding: 10px 18px;
+  border-radius: 25px;
+
+  font-size: 13px;
 }
 
 .social-buttons button {
@@ -114,6 +137,11 @@ textarea {
   height: 150px;
   resize: none;
   line-height: 1.6;
+  padding: 15px;
+
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
 }
 
 /* CANVAS */
@@ -121,7 +149,9 @@ canvas {
   display: none;
   margin: 20px auto;
   max-width: 400px;
-  border-radius: 12px;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 </style>
