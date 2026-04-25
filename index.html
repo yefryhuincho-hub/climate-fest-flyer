@@ -41,7 +41,7 @@ body {
 }
 
 .hero img {
-  width: 130px;
+  width: 120px;
   margin-bottom: 5px; /* 👈 antes estaba muy suelto */
 }
 
@@ -55,6 +55,41 @@ body {
   padding: 60px 20px 30px;
   text-align: center;
 }
+
+/* BADGE UBICACIÓN */
+.event-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 14px;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: #5aae36;
+  background: rgba(90, 174, 54, 0.1);
+
+  border-radius: 20px;
+}
+
+/* SUBTÍTULO */
+.subtitle {
+  margin-top: 16px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* LÍNEA SEPARADORA (detalle pro) */
+.hero::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 20px auto 0;
+
+  background: #5aae36;
+  border-radius: 10px;
+}  
 
  .hero p {
   max-width: 500px;
@@ -176,9 +211,16 @@ canvas {
 <!-- ===== HERO ===== -->
 <section class="hero">
   <img src="logo.png" onerror="this.style.display='none'">
+
   <h1>Climate Fest</h1>
-  <p class="location">Chachapoyas, Amazonas Perú 2026</p>
-  <p class="subtitle">Genera tu flyer oficial como participante seleccionado</p>
+
+  <div class="event-badge">
+    Chachapoyas, Amazonas Perú 2026
+  </div>
+
+  <p class="subtitle">
+    Genera tu flyer oficial como participante seleccionado
+  </p>
 </section>
 
 <!-- ===== GENERADOR ===== -->
