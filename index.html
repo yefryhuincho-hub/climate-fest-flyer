@@ -282,6 +282,7 @@ Si también quieres ser parte, aún puedes postular.
   <p class="tag-cta">
     Comparte tu flyer y etiquétanos 
     <a href="https://www.instagram.com/climate.fest" 
+       target="_blank"
        onclick="openInstagramProfile(event)">
        @climate.fest
     </a>
@@ -469,7 +470,7 @@ function openInstagramProfile(e) {
 
     // fallback
     setTimeout(() => {
-      window.location.href = "https://www.instagram.com/climate.fest";
+      window.open("https://www.instagram.com/climate.fest", "_blank");
     }, 800);
   }
 
