@@ -203,6 +203,29 @@ canvas {
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
+/* LLAMADO A IG */
+.tag-cta {
+  font-size: 13px;
+  margin-top: 10px;
+  opacity: 0.75;
+}
+
+.tag-cta a {
+  color: #5aae36;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tag-cta a:hover {
+  text-decoration: underline;
+}
+
+.social-proof {
+  font-size: 13px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+  
 </style>
 </head>
 
@@ -236,6 +259,7 @@ canvas {
 
   <button onclick="download()">Descargar flyer</button>
 
+  
 </section>
 
 <!-- ===== TEXTO + REDES ===== -->
@@ -255,7 +279,14 @@ Si también quieres ser parte, aún puedes postular.
 
 #ClimateFest2026 #AcciónClimática #Amazonía</textarea>
 
-  <h3>👉 No olviden etiquetar a @climate.fest</h3>
+  <p class="tag-cta">
+    Comparte tu flyer y etiquétanos 
+    <a href="#" onclick="openInstagramProfile()">@climate.fest</a>
+  </p>
+
+  <p class="social-proof">
+    🌍 Más de <strong><span id="counter">3500</span> jóvenes de distintos países</strong> ya son parte del Climate Fest
+  </p>
 
   <button onclick="copyTextFunc()">Copiar texto</button>
 
@@ -409,6 +440,37 @@ function copyTextFunc(){
   );
   alert("Texto copiado");
 }
+
+  // ===== CONTADOR DINÁMICO =====
+let count = 350; // número base (ajústalo cuando quieras)
+const counter = document.getElementById("counter");
+
+function animateCounter() {
+  const increment = Math.floor(Math.random() * 3) + 1; // +1 a +3
+  count += increment;
+  counter.innerText = count;
+}
+
+// sube número cada cierto tiempo
+setInterval(animateCounter, 2000);
+
+  /* ===== INSTAGRAM DE CLIMATE ===== */
+ function openInstagramProfile() {
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // intenta abrir la app
+    window.location.href = "instagram://user?username=climate.fest";
+
+    // fallback a web si no abre
+    setTimeout(() => {
+      window.open("https://www.instagram.com/climate.fest", "_blank");
+    }, 800);
+  } else {
+    // desktop directo a web
+    window.open("https://www.instagram.com/climate.fest", "_blank");
+  }
+} 
 
 </script>
 
