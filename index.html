@@ -1,79 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Climate Fest Flyer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Fest | Cumbre Mundial Climática</title>
 
-  <style>
-    body {
-      background: #0c1f1e;
-      color: white;
-      font-family: Roboto, sans-serif;
-      text-align: center;
-      padding: 30px;
-    }
+  <!-- 🔥 FAVICON -->
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    h1 {
-      color: #00d1b2;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #efefef;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+}
 
-    img {
-      width: 120px;
-      margin-bottom: 10px;
-    }
+/* HERO */
+.hero {
+  padding: 50px 20px;
+  text-align: center;
+}
 
-    input, button {
-      padding: 12px;
-      margin: 10px;
-      border-radius: 8px;
-      border: none;
-    }
+.hero img {
+  width: 130px;
+  margin-bottom: 15px;
+}
 
-    button {
-      background: #00d1b2;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.hero h1 {
+  color: #5aae36;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
 
-    #canvas {
-      display: none; /* 🔴 oculto al inicio */
-      margin-top: 20px;
-      max-width: 100%;
-      background: black;
-      border-radius: 10px;
-    }
+.hero p {
+  max-width: 500px;
+  margin: auto;
+  opacity: 0.85;
+}
 
-    .hint {
-      opacity: 0.7;
-      font-size: 14px;
-    }
-  </style>
+/* CARD */
+.card {
+  background: white;
+  color: black;
+  margin: 20px auto;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  max-width: 500px;
+}
+
+/* INPUTS + BOTONES + TEXTAREA */
+input, button, textarea {
+  width: 100%;
+  max-width: 320px;
+  padding: 12px;
+  margin: 10px auto;
+  border-radius: 8px;
+  border: none;
+  display: block;
+  font-family: 'Poppins', sans-serif; /* 🔥 APLICADO */
+  font-size: 14px;
+}
+
+button {
+  background: #5aae36;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+textarea {
+  height: 140px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* CANVAS */
+canvas {
+  display: none;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+}
+</style>
 </head>
 
 <body>
 
+<!-- HERO -->
+<section class="hero">
   <img src="logo.png" onerror="this.style.display='none'">
+  <h1>Climate Fest</h1>
+  <p>Chachapoyas, Amazonas Perú 2026</p>
+  <p>Genera tu flyer oficial como participante seleccionado</p>
+</section>
 
-  <h1>CLIMATE FEST 2026</h1>
-  <p>Crea tu flyer y compártelo en tus redes</p>
+<!-- GENERADOR -->
+<section class="card">
 
-  <p class="hint">Sube tu foto para comenzar</p>
+  <h3>Sube tu foto</h3>
+  <p>Luego haz clic en generar y ajusta la imagen</p>
 
-  <input type="file" id="upload" accept="image/*"><br>
-  <input type="text" id="name" placeholder="Tu nombre (opcional)"><br>
-
-  <button onclick="drawManual()">Generar flyer</button>
-
-  <br>
+  <input type="file" id="upload" accept="image/*">
+  <button onclick="draw()">Generar mi flyer</button>
 
   <canvas id="canvas" width="1080" height="1080"></canvas>
 
-  <br>
+  <button onclick="download()">Descargar flyer</button>
 
-  <button onclick="download()">Descargar</button>
+</section>
 
-  <p class="hint">Usa la rueda del mouse para hacer zoom y arrastra para ajustar</p>
-  <p>#ClimateFest2026</p>
+<!-- TEXTO -->
+<section class="card">
+
+  <h3>Texto para compartir</h3>
+
+  <textarea readonly id="copyText">🌱✨ ¡Feliz de haber sido seleccionad@!
+
+Seré parte del taller de ArcGIS Pro aplicado a la ecología y conservación, donde seguiré fortaleciendo mis habilidades en SIG con enfoque ambiental 🌍
+
+Súper alegre por todo lo que se viene 🚀
+
+#ArcGISConImpacto #InnovaLabs #EcosFoundation
+</textarea>
+<h3>👉 No olviden etiquetar a @climate.fest</h3>
+
+  <button onclick="copyTextFunc()">Copiar texto</button>
+
+  <h3>Compartir en redes</h3>
+
+  <button onclick="shareFacebook()">📘 Facebook</button>
+  <button onclick="openInstagram()">📸 Instagram</button>
+
+</section>
 
 <script>
 const canvas = document.getElementById("canvas");
@@ -83,41 +152,81 @@ let img = new Image();
 let overlay = new Image();
 overlay.src = "overlay.png";
 
+overlay.onerror = () => {
+  alert("Error cargando overlay.png");
+};
+
 let scale = 1;
 let posX = 0;
 let posY = 0;
 
 let dragging = false;
 let startX, startY;
+let lastDist = null;
+let imageLoaded = false;
 
-// subir imagen
+// CARGAR IMAGEN
 document.getElementById("upload").addEventListener("change", function(e){
   const file = e.target.files[0];
   if(!file) return;
 
+  if (!file.type.startsWith("image/")) {
+    alert("Solo se permiten imágenes");
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert("La imagen es muy pesada (máx 5MB)");
+    return;
+  }
+
   img.src = URL.createObjectURL(file);
 
   img.onload = () => {
-    scale = 1;
+    imageLoaded = true;
 
-    posX = (canvas.width - img.width) / 2;
-    posY = (canvas.height - img.height) / 2;
+    const scaleX = canvas.width / img.width;
+    const scaleY = canvas.height / img.height;
+    scale = Math.max(scaleX, scaleY);
 
-    canvas.style.display = "block"; // 🔥 aparece recién aquí
+    const imgWidth = img.width * scale;
+    const imgHeight = img.height * scale;
 
-    draw();
+    posX = (canvas.width - imgWidth) / 2;
+    posY = (canvas.height - imgHeight) / 2;
   };
 });
 
-// zoom
+// GENERAR
+function draw(){
+  if (!imageLoaded) {
+    alert("Primero sube una imagen");
+    return;
+  }
+
+  canvas.style.display = "block";
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const imgWidth = img.width * scale;
+  const imgHeight = img.height * scale;
+
+  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
+  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
+
+  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
+  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
+}
+
+// ZOOM
 canvas.addEventListener("wheel", (e) => {
   e.preventDefault();
   scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(0.5, scale), 3);
+  scale = Math.min(Math.max(0.5, scale), 4);
   draw();
 });
 
-// drag
+// DRAG
 canvas.addEventListener("mousedown", (e) => {
   dragging = true;
   startX = e.offsetX - posX;
@@ -135,40 +244,82 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("mouseup", () => dragging = false);
 canvas.addEventListener("mouseleave", () => dragging = false);
 
-// dibujar
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  if(!img.src) return;
-
-  const imgWidth = img.width * scale;
-  const imgHeight = img.height * scale;
-
-  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
-
-  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
-
-  const name = document.getElementById("name").value;
-
-  if(name){
-    ctx.fillStyle = "white";
-    ctx.font = "40px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(name, canvas.width/2, 950);
+// TOUCH
+canvas.addEventListener("touchstart", (e) => {
+  if (e.touches.length === 1) {
+    startX = e.touches[0].clientX - posX;
+    startY = e.touches[0].clientY - posY;
   }
+  if (e.touches.length === 2) {
+    lastDist = getDistance(e.touches);
+  }
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+
+  if (e.touches.length === 1) {
+    posX = e.touches[0].clientX - startX;
+    posY = e.touches[0].clientY - startY;
+    draw();
+  }
+
+  if (e.touches.length === 2) {
+    let newDist = getDistance(e.touches);
+    scale += (newDist - lastDist) * 0.005;
+    scale = Math.min(Math.max(0.5, scale), 4);
+    lastDist = newDist;
+    draw();
+  }
+}, { passive: false });
+
+function getDistance(touches) {
+  let dx = touches[0].clientX - touches[1].clientX;
+  let dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
-// botón
-function drawManual(){
-  draw();
-}
-
-// descargar
+// DESCARGAR
 function download(){
   const link = document.createElement("a");
-  link.download = "flyer.png";
-  link.href = canvas.toDataURL();
+  link.download = "climate.fest_flyer.png";
+  link.href = canvas.toDataURL("image/png");
   link.click();
+}
+
+// COPIAR
+function copyTextFunc(){
+  const text = document.getElementById("copyText").value;
+  navigator.clipboard.writeText(text);
+  alert("Texto copiado");
+}
+
+// ===== SHARE =====
+function getText() {
+  return encodeURIComponent(document.getElementById("copyText").value);
+}
+
+function shareWhatsApp() {
+  const text = getText();
+  const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+
+  const url = isMobile
+    ? `https://api.whatsapp.com/send?text=${text}`
+    : `https://web.whatsapp.com/send?text=${text}`;
+
+  window.open(url, "_blank");
+}
+
+function shareFacebook()  {
+  copyTextFunc();
+  alert("Compártelo en Facebook");
+  window.open("https://www.facebook.com/", "_blank");
+}
+
+function openInstagram() {
+  copyTextFunc();
+  alert("Compártelo en Instagram");
+  window.open("https://www.instagram.com/", "_blank");
 }
 </script>
 
