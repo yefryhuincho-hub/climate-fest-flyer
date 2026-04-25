@@ -5,21 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Climate Fest | Cumbre Mundial Climática</title>
 
-  <!-- 🔥 FAVICON -->
+<!-- ICONO -->
 <link rel="icon" type="image/png" href="logo.png">
+
+<!-- TIPOGRAFÍA -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- ICONOS REDES -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
+
 <style>
+
+/* ===== BASE ===== */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #efefef;
   color: black;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
   padding: 50px 20px;
   text-align: center;
@@ -27,13 +32,11 @@ body {
 
 .hero img {
   width: 130px;
-  margin-bottom: 15px;
 }
 
 .hero h1 {
   color: #5aae36;
   font-size: 28px;
-  margin-bottom: 10px;
 }
 
 .hero p {
@@ -42,10 +45,9 @@ body {
   opacity: 0.85;
 }
 
-/* CARD */
+/* ===== TARJETAS ===== */
 .card {
   background: white;
-  color: black;
   margin: 20px auto;
   padding: 25px;
   border-radius: 14px;
@@ -53,7 +55,7 @@ body {
   max-width: 500px;
 }
 
-/* INPUTS + BOTONES + TEXTAREA */
+/* ===== INPUTS / BOTONES ===== */
 input, button, textarea {
   width: 100%;
   max-width: 320px;
@@ -62,40 +64,34 @@ input, button, textarea {
   border-radius: 8px;
   border: none;
   display: block;
-  font-family: 'Poppins', sans-serif; /* 🔥 APLICADO */
-  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* BOTONES */
 button {
   background: #5aae36;
-  color: white; /* 👈 ESTA ES LA CLAVE */
+  color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
- button i {
-  color: white;
-  margin-right: 8px; 
+/* ICONOS */
+button i {
+  margin-right: 8px;
 }
 
-button.facebook {
-  background: #1877f2;
-}
+/* COLORES REDES */
+button.facebook { background: #1877f2; }
+button.instagram { background: #e4405f; }
+button.linkedin { background: #0a66c2; }
 
-button.instagram {
-  background: #e4405f;
-}
-
-button.linkedin {
-  background: #0a66c2;
-}
-  
+/* HOVER */
 button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* BOTONES REDES (layout) */
 .social-buttons {
   display: flex;
   justify-content: center;
@@ -110,36 +106,30 @@ button:hover {
 .social-buttons button {
   width: auto;
   padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social-buttons button {
   border-radius: 20px;
 }
-  
+
+/* TEXTAREA */
 textarea {
-  height: 140px;
+  height: 150px;
   resize: none;
-  font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* CANVAS */
 canvas {
   display: none;
   margin: 20px auto;
-  width: 100%;
   max-width: 400px;
   border-radius: 12px;
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <img src="logo.png" onerror="this.style.display='none'">
   <h1>Climate Fest</h1>
@@ -147,7 +137,7 @@ canvas {
   <p>Genera tu flyer oficial como participante seleccionado</p>
 </section>
 
-<!-- GENERADOR -->
+<!-- ===== GENERADOR ===== -->
 <section class="card">
 
   <h3>Sube tu foto</h3>
@@ -162,7 +152,7 @@ canvas {
 
 </section>
 
-<!-- TEXTO -->
+<!-- ===== TEXTO + REDES ===== -->
 <section class="card">
 
   <h3>Texto para compartir</h3>
@@ -171,44 +161,47 @@ canvas {
 
 Ahora soy un Actor Climático del Climate Fest 2026, una cumbre internacional que reunirá en la Amazonía peruana 🇵🇪 a jóvenes, líderes y agentes de cambio de distintos países.
 
-Ser parte de este espacio no es solo participar en un evento, es integrarse a una red que impulsa acción climática real, innovación y soluciones desde los territorios.
+Ser parte de este espacio no es solo participar en un evento, es integrarse a una red que impulsa acción climática real.
 
 Este es solo el inicio.
 
-Si también quieres ser parte del Climate Fest 2026, aún puedes postular.
+Si también quieres ser parte, aún puedes postular.
 
-#ClimateFest2026 #AcciónClimática #EcosFoundation #Amazonía    
-</textarea>
-<h3>👉 No olviden etiquetar a @climate.fest</h3>
+#ClimateFest2026 #AcciónClimática #Amazonía</textarea>
+
+  <h3>👉 No olviden etiquetar a @climate.fest</h3>
 
   <button onclick="copyTextFunc()">Copiar texto</button>
 
   <h3>Compartir en redes</h3>
+
   <div class="social-buttons">
 
-  <a href="https://www.facebook.com/" target="_blank">
-    <button class="facebook">
-      <i class="fab fa-facebook"></i> Facebook
-    </button>
-  </a>
+    <a href="https://www.facebook.com/" target="_blank">
+      <button class="facebook">
+        <i class="fab fa-facebook"></i> Facebook
+      </button>
+    </a>
 
-  <a href="https://www.instagram.com/" target="_blank">
-    <button class="instagram">
-      <i class="fab fa-instagram"></i> Instagram
-    </button>
-  </a>
+    <a href="https://www.instagram.com/" target="_blank">
+      <button class="instagram">
+        <i class="fab fa-instagram"></i> Instagram
+      </button>
+    </a>
 
-  <a href="https://www.linkedin.com/" target="_blank">
-    <button class="linkedin">
-      <i class="fab fa-linkedin"></i> LinkedIn
-    </button>
-  </a>
-  
+    <a href="https://www.linkedin.com/" target="_blank">
+      <button class="linkedin">
+        <i class="fab fa-linkedin"></i> LinkedIn
+      </button>
+    </a>
+
   </div>
 
 </section>
 
 <script>
+
+/* ===== CANVAS ===== */
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -216,177 +209,82 @@ let img = new Image();
 let overlay = new Image();
 overlay.src = "overlay.png";
 
-overlay.onerror = () => {
-  alert("Error cargando overlay.png");
-};
-
-let scale = 1;
-let posX = 0;
-let posY = 0;
-
-let dragging = false;
-let startX, startY;
-let lastDist = null;
+let scale = 1, posX = 0, posY = 0;
+let dragging = false, startX, startY, lastDist = null;
 let imageLoaded = false;
 
-// CARGAR IMAGEN
+/* ===== CARGA IMAGEN ===== */
 document.getElementById("upload").addEventListener("change", function(e){
   const file = e.target.files[0];
-  if(!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    alert("Solo se permiten imágenes");
-    return;
-  }
-
-  if (file.size > 5 * 1024 * 1024) {
-    alert("La imagen es muy pesada (máx 5MB)");
-    return;
-  }
+  if(!file || !file.type.startsWith("image/")) return;
 
   img.src = URL.createObjectURL(file);
 
   img.onload = () => {
     imageLoaded = true;
 
-    const scaleX = canvas.width / img.width;
-    const scaleY = canvas.height / img.height;
-    scale = Math.max(scaleX, scaleY);
+    scale = Math.max(
+      canvas.width / img.width,
+      canvas.height / img.height
+    );
 
-    const imgWidth = img.width * scale;
-    const imgHeight = img.height * scale;
-
-    posX = (canvas.width - imgWidth) / 2;
-    posY = (canvas.height - imgHeight) / 2;
+    posX = (canvas.width - img.width * scale) / 2;
+    posY = (canvas.height - img.height * scale) / 2;
   };
 });
 
-// GENERAR
+/* ===== GENERAR ===== */
 function draw(){
-  if (!imageLoaded) {
-    alert("Primero sube una imagen");
-    return;
-  }
+  if (!imageLoaded) return alert("Sube una imagen");
 
   canvas.style.display = "block";
-
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  const imgWidth = img.width * scale;
-  const imgHeight = img.height * scale;
+  const w = img.width * scale;
+  const h = img.height * scale;
 
-  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
-  ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
-
-  ctx.drawImage(img, posX, posY, imgWidth, imgHeight);
+  ctx.drawImage(img, posX, posY, w, h);
   ctx.drawImage(overlay, 0, 0, canvas.width, canvas.height);
 }
 
-// ZOOM
-canvas.addEventListener("wheel", (e) => {
+/* ===== INTERACCIONES ===== */
+canvas.addEventListener("wheel", e => {
   e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(0.5, scale), 4);
+  scale = Math.min(Math.max(scale - e.deltaY * 0.001, 0.5), 4);
   draw();
 });
 
-// DRAG
-canvas.addEventListener("mousedown", (e) => {
+canvas.onmousedown = e => {
   dragging = true;
   startX = e.offsetX - posX;
   startY = e.offsetY - posY;
-});
+};
 
-canvas.addEventListener("mousemove", (e) => {
-  if(dragging){
-    posX = e.offsetX - startX;
-    posY = e.offsetY - startY;
-    draw();
-  }
-});
+canvas.onmousemove = e => {
+  if(!dragging) return;
+  posX = e.offsetX - startX;
+  posY = e.offsetY - startY;
+  draw();
+};
 
-canvas.addEventListener("mouseup", () => dragging = false);
-canvas.addEventListener("mouseleave", () => dragging = false);
+canvas.onmouseup = canvas.onmouseleave = () => dragging = false;
 
-// TOUCH
-canvas.addEventListener("touchstart", (e) => {
-  if (e.touches.length === 1) {
-    startX = e.touches[0].clientX - posX;
-    startY = e.touches[0].clientY - posY;
-  }
-  if (e.touches.length === 2) {
-    lastDist = getDistance(e.touches);
-  }
-});
-
-canvas.addEventListener("touchmove", (e) => {
-  e.preventDefault();
-
-  if (e.touches.length === 1) {
-    posX = e.touches[0].clientX - startX;
-    posY = e.touches[0].clientY - startY;
-    draw();
-  }
-
-  if (e.touches.length === 2) {
-    let newDist = getDistance(e.touches);
-    scale += (newDist - lastDist) * 0.005;
-    scale = Math.min(Math.max(0.5, scale), 4);
-    lastDist = newDist;
-    draw();
-  }
-}, { passive: false });
-
-function getDistance(touches) {
-  let dx = touches[0].clientX - touches[1].clientX;
-  let dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-// DESCARGAR
+/* ===== DESCARGA ===== */
 function download(){
-  const link = document.createElement("a");
-  link.download = "climate.fest_flyer.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+  const a = document.createElement("a");
+  a.download = "climatefest.png";
+  a.href = canvas.toDataURL();
+  a.click();
 }
 
-// COPIAR
+/* ===== COPIAR TEXTO ===== */
 function copyTextFunc(){
-  const text = document.getElementById("copyText").value;
-  navigator.clipboard.writeText(text);
+  navigator.clipboard.writeText(
+    document.getElementById("copyText").value
+  );
   alert("Texto copiado");
 }
 
-// ===== SHARE =====
-function getText() {
-  return encodeURIComponent(document.getElementById("copyText").value);
-}
-
-function shareWhatsApp() {
-  const text = getText();
-  const isMobile = /Android|iPhone/i.test(navigator.userAgent);
-
-  const url = isMobile
-    ? `https://api.whatsapp.com/send?text=${text}`
-    : `https://web.whatsapp.com/send?text=${text}`;
-
-  window.open(url, "_blank");
-}
-
-function shareFacebook()  {
-  window.open("https://www.facebook.com/", "_blank");
-}
-
-function openInstagram() {
-  window.open("https://www.instagram.com/", "_blank");
-}
-
-  function openLinkedIn() {
-  window.open("https://www.linkedin.com/", "_blank");
-
-}
-  
 </script>
 
 </body>
